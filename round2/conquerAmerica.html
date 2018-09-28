@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Conquer America</title>
+</head>
+<body>
+    <button id="button" style="background-color:aqua;color:blue;margin-left:100px;margin-top:100px">Click to load</button>
+
+    <div id='xhr' style="background-color:rgb(35, 215, 221);color:rgb(218, 57, 137);margin-left:100px;margin-top: 10px;max-width: 250px;">
+
+    </div>
+    <script>
+        
+        document.getElementById('button').addEventListener(
+            'click',loadText
+            );
+        function loadText(){
+            var div1 = document.createElement("div");
+            div1 = '';
+            //div1.setAttribute("style", "padding-right:2%;");
+
+            var xhr =new XMLHttpRequest();
+            
+            xhr.open("get", 'conquerAmerica.json', true);
+           
+            xhr.onreadystatechange = function(){
+                
+                if(this.readyState==4 && this.status==200){
+                    var question = JSON.parse(this.responseText);
+                    for(var i in question){
+                        div1 =div1+ "<h3 id='question'>"+ question[0].question + "</h1>";
+                    div1 += '<input type="radio" style="margin-left:5%;" value="'+question[i].option1+'" name="q'+ "america" + '">' 
+                    + question[0].option1;
+                    div1 += '<input type="radio" style="margin-left:5%;" value="'+question[i].option2+'" name="q'+ "america" + '">' 
+                    + question[0].option2;
+                    div1 += '<input type="radio" style="margin-left:5%;" value="'+question[i].option3+'" name="q'+ "america" + '">' 
+                    + question[0].option3;
+                    div1 += '<input type="radio" style="margin-left:5%;" value="'+question[i].option4+'" name="q'+ "america" + '">' 
+                    + question[0].option4;
+                    }
+                    
+                    console.log(div1);
+                    document.getElementById("xhr").innerHTML= div1;
+    
+                } else if(this.readyState==4 && this.status==404){
+                    document.getElementById('xhr').innerHTML = "404 file not found";
+                }
+            }
+            
+            xhr.onerror = function(){
+                console.log('Request error');
+            }
+            xhr.send();
+        }    
+        
+</script>
+</body>
+</html>
